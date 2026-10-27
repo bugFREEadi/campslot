@@ -1,5 +1,9 @@
 # Render Blueprint — New → Blueprint → select bugFREEadi/campslot
-# After deploy, set APP_ORIGIN to the exact https://*.onrender.com URL, then redeploy once.
+# Free tier: no persistent disk. SQLite lives in the container filesystem and
+# resets on redeploy/restart. After first deploy, open the site and use
+# "First run? Initialize the demo" once (repeat after each redeploy if wiped).
+# Then set APP_ORIGIN to the exact https://….onrender.com URL and redeploy once
+# so CSRF/cookies match the public origin.
 services:
   - type: web
     name: campusslot
@@ -17,7 +21,3 @@ services:
         sync: false
       - key: DATABASE_PATH
         value: /app/data/campusslot.sqlite
-    disk:
-      name: campusslot-data
-      mountPath: /app/data
-      sizeGB: 1
