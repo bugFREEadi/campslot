@@ -1,4 +1,4 @@
-import { createServer } from "node:http";
+import { createServer, type IncomingMessage } from "node:http";
 import { readFileSync, existsSync } from "node:fs";
 import { handleApi } from "../lib/server/api.ts";
 import { openLocalStore } from "../lib/server/local-store.ts";
@@ -13,9 +13,30 @@ const assets: Record<string, [string, string]> = {
   "/app.css": ["dist-local/app.css", "text/css; charset=utf-8"],
   "/favicon.svg": ["dist-local/favicon.svg", "image/svg+xml"],
 };
+/** Public origin behind Render/nginx: prefer forwarded host over APP_ORIGIN. */
+function publicOrigin(incoming: IncomingMessage, fallback: string): string {
+  const xfProto = String(incoming.headers["x-forwarded-proto"] ?? "")
+    .split(",")[0]
+    ?.trim();
+  const xfHost = String(
+    incoming.headers["x-forwarded-host"] ?? incoming.headers.host ?? "",
+  )
+    .split(",")[0]
+    ?.trim();
+  if (xfHost) {
+    const proto = xfProto || (fallback.startsWith("https:") ? "https" : "http");
+    try {
+      return new URL(`${proto}://${xfHost}`).origin;
+    } catch {
+      /* fall through */
+    }
+  }
+  return fallback;
+}
 const server = createServer(async (incoming, outgoing) => {
   try {
-    const path = new URL(incoming.url ?? "/", origin).pathname;
+    const base = publicOrigin(incoming, origin);
+    const path = new URL(incoming.url ?? "/", base).pathname;
     outgoing.setHeader("X-Content-Type-Options", "nosniff");
     outgoing.setHeader("Referrer-Policy", "same-origin");
     outgoing.setHeader("X-Frame-Options", "DENY");
@@ -36,7 +57,7 @@ const server = createServer(async (incoming, outgoing) => {
         if (value)
           headers.set(key, Array.isArray(value) ? value.join(",") : value);
       const method = incoming.method ?? "GET";
-      const request = new Request(new URL(incoming.url ?? "/", origin), {
+      const request = new Request(new URL(incoming.url ?? "/", base), {
         method,
         headers,
         ...(["GET", "HEAD"].includes(method)
