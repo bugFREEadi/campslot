@@ -1,0 +1,172 @@
+CampusSlot verification record
+Command: PATH=/opt/homebrew/opt/node@24/bin:$PATH npm run check
+Runtime: Node.js 24.20.0
+Captured: 2026-10-27T16:54:09.786321+00:00
+Result: exit code 0
+Scope: strict typecheck, 33 real-SQLite/API tests, Worker and standalone production builds.
+Browser and deployment checks remain blocked; see TESTING.md.
+
+
+> campusslot@1.0.0 check
+> npm run typecheck && npm test && npm run build
+
+
+> campusslot@1.0.0 typecheck
+> tsc --noEmit
+
+
+> campusslot@1.0.0 test
+> node --experimental-strip-types --test tests/*.test.ts
+
+✔ sign in sets HttpOnly/SameSite cookie, stores only hashed session token, and logout revokes it (140.296083ms)
+✔ invalid passwords and unknown accounts get identical errors; brute-force attempts are limited (202.620792ms)
+✔ HTTPS cookies are Secure and expired or forged sessions are unauthenticated (101.99925ms)
+✔ CSRF rejects foreign or missing origins and missing custom headers (2.105292ms)
+✔ malformed JSON, array body, overlarge body and unknown route return useful statuses (102.172125ms)
+✔ full API journey: search, detail, availability, book, reload, cancel; second student cannot see it (204.316708ms)
+✔ full administrator API journey: add, edit, maintenance blocks student, remove, issue, return (213.739875ms)
+✔ seed is explicit, repeat-safe and never resets existing data (101.003041ms)
+✔ SQL injection in search/login is treated as data (201.463959ms)
+✔ database/network failures become a retryable response without exposing raw errors (0.911625ms)
+✔ interval validation rejects past, invalid, reversed, overlong and distant dates (1.646625ms)
+✔ sweep line uses peak rather than sum and treats adjacent endpoints as non-overlapping (0.170125ms)
+✔ reserve, confirm, list, cancel and recover availability (3.489167ms)
+✔ issue, repeat issue, return, repeat return and reject reopening (2.608166ms)
+✔ issue outside pickup window and return before issue are rejected (1.652875ms)
+✔ overlapping requests exceeding capacity fail, adjacent request succeeds (2.029ms)
+✔ reservation spanning sequential existing bookings consumes peak, not total (1.827791ms)
+✔ capacity check catches a peak beginning inside the requested interval (1.97ms)
+✔ idempotent duplicate returns same record; changed payload conflicts (1.463833ms)
+✔ private resources are hidden from another student and admin-only operations denied (1.81675ms)
+✔ maintenance blocks all units, allows adjacency, and rejects reservation overlaps (2.061875ms)
+✔ inventory decrease/archive rejects outstanding bookings; increase works (2.179667ms)
+✔ missing equipment, invalid quantities and missing purpose are rejected (1.248125ms)
+✔ SQLite enforces capacity and immutable records even outside service code (1.599833ms)
+✔ overdue loans block bookings and appear on the desk until returned (1.939792ms)
+✔ cancellation after start and issue after end are denied by database and service (1.344709ms)
+✔ data survives closing/reopening the database connection (12.489417ms)
+✔ 12 independent concurrent SQLite writers compete for 2 units: exactly 2 succeed (70.444958ms)
+✔ early pickup cannot take capacity promised to an adjacent reservation (3.093834ms)
+✔ early pickup is blocked by maintenance ending at the planned start (1.710875ms)
+✔ database refuses fractional capacities and quantities (1.286667ms)
+✔ repeated inventory creation conflicts without duplicates; new archived equipment stays archived (1.144625ms)
+✔ eight simultaneous identical booking submissions produce exactly one record (2.577541ms)
+ℹ tests 33
+ℹ suites 0
+ℹ pass 33
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1506.622125
+
+> campusslot@1.0.0 build
+> npm run build:worker && npm run build:local
+
+
+> campusslot@1.0.0 build:worker
+> node scripts/run-framework.mjs build
+
+
+  vinext build  (Vite 8.0.13)
+
+[1/5] analyze client references...
+
+transforming...✓ 235 modules transformed.
+rendering chunks...
+✓ built in 292ms
+[2/5] analyze server references...
+
+transforming...✓ 113 modules transformed.
+rendering chunks...
+✓ built in 103ms
+[3/5] build rsc environment...
+
+transforming...✓ 232 modules transformed.
+rendering chunks...
+computing gzip size...
+✓ built in 310ms
+[4/5] build client environment...
+
+transforming...✓ 1903 modules transformed.
+rendering chunks...
+computing gzip size...
+✓ built in 889ms
+[5/5] build ssr environment...
+
+transforming...✓ 119 modules transformed.
+rendering chunks...
+computing gzip size...
+✓ built in 313ms
+
+  Route (app)
+  ┌ ? /          
+  └ λ /api/:path*
+
+  λ API  ? Unknown
+
+  ? Some routes could not be classified. vinext currently uses static analysis
+    and cannot detect dynamic API usage (headers(), cookies(), etc.) at build time.
+    Automatic classification will be improved in a future release.
+
+  Build complete. Run `vinext start` to start the production server.
+
+
+> campusslot@1.0.0 build:local
+> node scripts/build-local.mjs
+
+Standalone production assets built in dist-local/.
+
+
+Final responsive typography adjustment: production build rerun, exit code 0.
+npm notice run campusslot@1.0.0 build
+npm notice run npm run build:worker && npm run build:local
+npm notice run campusslot@1.0.0 build:worker
+npm notice run node scripts/run-framework.mjs build
+
+  vinext build  (Vite 8.0.13)
+
+[1/5] analyze client references...
+
+transforming...✓ 235 modules transformed.
+rendering chunks...
+✓ built in 292ms
+[2/5] analyze server references...
+
+transforming...✓ 113 modules transformed.
+rendering chunks...
+✓ built in 99ms
+[3/5] build rsc environment...
+
+transforming...✓ 232 modules transformed.
+rendering chunks...
+computing gzip size...
+✓ built in 298ms
+[4/5] build client environment...
+
+transforming...✓ 1903 modules transformed.
+rendering chunks...
+computing gzip size...
+✓ built in 1.06s
+[5/5] build ssr environment...
+
+transforming...✓ 119 modules transformed.
+rendering chunks...
+computing gzip size...
+✓ built in 356ms
+
+  Route (app)
+  ┌ ? /          
+  └ λ /api/:path*
+
+  λ API  ? Unknown
+
+  ? Some routes could not be classified. vinext currently uses static analysis
+    and cannot detect dynamic API usage (headers(), cookies(), etc.) at build time.
+    Automatic classification will be improved in a future release.
+
+  Build complete. Run `vinext start` to start the production server.
+
+npm notice run campusslot@1.0.0 build:local
+npm notice run node scripts/build-local.mjs
+Standalone production assets built in dist-local/.

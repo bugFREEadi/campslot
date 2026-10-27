@@ -1,0 +1,55 @@
+{
+  "name": "campusslot",
+  "version": "1.0.0",
+  "private": true,
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "scripts": {
+    "install:ci": "node scripts/install-ci.mjs",
+    "dev": "node scripts/run-framework.mjs dev",
+    "build": "npm run build:worker && npm run build:local",
+    "start": "node scripts/serve-local.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "node --experimental-strip-types --test tests/*.test.ts",
+    "db:migrate": "node scripts/db-local.mjs",
+    "db:seed": "node scripts/seed-local.mjs",
+    "start:worker": "node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js dev --config dist/server/wrangler.json --local --persist-to .wrangler/state --ip 127.0.0.1 --inspector-port 0",
+    "setup": "node scripts/setup-local.ts && npm run build:local",
+    "build:local": "node scripts/build-local.mjs",
+    "build:worker": "node scripts/run-framework.mjs build",
+    "format": "prettier --write app lib/server lib/types.ts tests web scripts/*local* scripts/setup-local.ts",
+    "test:browser": "npm run build:local && node scripts/browser-smoke.mjs",
+    "check": "npm run typecheck && npm test && npm run build"
+  },
+  "dependencies": {
+    "bcryptjs": "3.0.3",
+    "lucide-react": "1.31.0",
+    "next": "16.3.5",
+    "react": "19.2.6",
+    "react-dom": "19.2.6"
+  },
+  "devDependencies": {
+    "@cloudflare/vite-plugin": "1.37.1",
+    "@cloudflare/workers-types": "4.20260515.1",
+    "@types/node": "22.19.19",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
+    "@vitejs/plugin-react": "6.0.2",
+    "@vitejs/plugin-rsc": "0.5.26",
+    "esbuild": "0.27.3",
+    "prettier": "3.8.4",
+    "react-server-dom-webpack": "19.2.6",
+    "typescript": "5.9.3",
+    "vinext": "1.0.0-beta.5",
+    "vite": "8.0.13",
+    "wrangler": "4.92.0",
+    "playwright-core": "1.63.0"
+  },
+  "type": "module",
+  "overrides": {
+    "miniflare": {
+      "sharp": "0.35.4"
+    }
+  }
+}

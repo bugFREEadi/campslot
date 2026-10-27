@@ -1,0 +1,12 @@
+CampusSlot
+===========
+
+This repository is an independent republication of the CampusSlot coursework
+application for personal development, evaluation, and deployment.
+
+Original upstream source:
+  https://github.com/anoushkawayangankar/campslot
+
+Original authorship of the initial CampusSlot implementation is attributed to
+Anoushka Wayangankar. This fresh Git history records a new initial import of
+the project tree and does not rewrite or reassign the upstream commit history.
